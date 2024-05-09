@@ -217,8 +217,18 @@ const fetchUsers = async () => {
 
 // Сортировка товаров(монтирование)
 onMounted(async () => {
+  //
+  const localCart = localStorage.getItem("cart");
+  cart.value = localCart ? JSON.parse(localCart) : [];
+
   await fetchItems(); // получаем все кроссовки
   await fetchFavorites(); // запрос на получение списка закладок
+
+  // Чтобы кнопки добавлен в корзину оставались отмеченными при перезагрузке страницы
+  items.value = items.value.map((item) => ({
+    ...item,
+    isAdded: cart.value.some((cartItem) => cartItem.id === item.id),
+  }));
 });
 
 // Вспомогательная функция, которая отлавливает что поменялось(сортировка товаров)(изменение фильтрации)
@@ -233,6 +243,16 @@ watch(cart, () => {
   }));
 });
 
+// чтобы после перезагрузки страницыинфо в карточках не менялась(например товары в корзине)
+// любое изменение корзины сохраняется в локал сторедж
+watch(
+  cart,
+  () => {
+    localStorage.setItem("cart", JSON.stringify(cart.value));
+  },
+  { deep: true } // глубокая проверка
+);
+
 // Обьявляем что есть  2 функции внутри обьекта cartActions(которую можем использовать
 // в любом другом месте ТОЛЬКО В ДОЧЕРНИХ элементах)
 
@@ -246,7 +266,7 @@ provide("cart", {
 //Ключи у provide должны быть уникальными(первое значение в скобках)
 </script>
 <template>
-  <!--рендерится только в том случае если drawerOpen=true -->
+  <!--рендерится только в том случае если drawerOpen=true-->
   <Drawer
     :total-price="totalPrice"
     :vatPrice="vatPrice"
