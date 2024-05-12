@@ -9,7 +9,7 @@ const { cart, removeFromCart } = inject("cart");
 </script>
 
 <template>
-  <div class="flex flex-1 flex-col gap-5">
+  <div v-auto-animate class="flex flex-1 flex-col gap-5">
     <!-- Рендерим список внутри корзины  -->
     <CartItem
       v-for="item in cart"
