@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, provide, reactive, ref, watch, computed, inject } from "vue";
 import axios from "axios";
+import debounce from "lodash.debounce";
 
 import CardList from "../components/CardList.vue";
 
@@ -8,14 +9,16 @@ const { cart, addToCart, removeFromCart, onClickAddPlus } = inject("cart");
 
 // Хранятся все кроссовки(массив)
 const items = ref([]);
+const meta = ref({});
+const currentPage = ref(1);
 
 // Функции следят за изменением селекта и инпута
 const onChangeSelect = (event) => {
   filters.sortBy = event.target.value;
 };
-const onChangeSearchInput = (event) => {
+const onChangeSearchInput = debounce((event) => {
   filters.searchQuert = event.target.value;
-};
+}, 500);
 
 // Хранит фильтры
 const filters = reactive({
@@ -30,7 +33,7 @@ const addToFavorite = async (item) => {
     if (!item.isFavorite) {
       // Если нет, то создаем этот товар
       const obj = {
-        parentId: item.id,
+        item_id: item.id,
       };
       item.isFavorite = true;
       const { data } = await axios.post(
@@ -56,6 +59,10 @@ const addToFavorite = async (item) => {
   }
 };
 
+const onClickPage = (page) => {
+  currentPage.value = page;
+};
+
 // Функция при каждом изменении элементов или при первом рендере, выполняет запрос на бэк
 // запрашивает только списак товаров
 const fetchItems = async () => {
@@ -63,6 +70,8 @@ const fetchItems = async () => {
     // по умолчанию сортировка sortBy: "title",
     const params = {
       sortBy: filters.sortBy,
+      page: currentPage.value,
+      limit: 8,
     };
 
     // изменение инпута=> изменение params которые будут отправляться на бэк
@@ -76,7 +85,8 @@ const fetchItems = async () => {
     // Как пришел ответ вшиваем его в  items
     // Для fetchFavorites запросить все данные с помощью fetchItems,
     // сохранить их в таком формате(структура items.value) дальше в fetchFavorites
-    items.value = data.map((obj) => ({
+    meta.value = data.meta;
+    items.value = data.items.map((obj) => ({
       ...obj,
       isFavorite: false,
       favoriteId: null,
@@ -102,7 +112,7 @@ const fetchFavorites = async () => {
     // favorites если есть значит он есть в закладках
     // (Нашли товар в закладках по parentId проверили что он равен item.id)
     items.value = items.value.map((item) => {
-      const favorite = favorites.find((favorite) => favorite.parentId === item.id);
+      const favorite = favorites.find((favorite) => favorite.item_id === item.id);
       // Если закладки нет, то вернем сам item
       if (!favorite) {
         return item;
@@ -174,6 +184,7 @@ watch(cart, () => {
 });
 
 watch(filters, fetchItems);
+watch(currentPage, fetchItems);
 </script>
 
 <template>
@@ -201,7 +212,9 @@ watch(filters, fetchItems);
   <div class="mt-10">
     <!-- Прокидывание пропсов  @addToFavorite="addToFavorite"-->
     <CardList
+      :meta="meta"
       :items="items"
+      @on-click-page="onClickPage"
       @add-to-favorite="addToFavorite"
       @add-to-cart="onClickAddPlus"
     />
