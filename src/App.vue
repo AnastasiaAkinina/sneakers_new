@@ -1,12 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { provide, reactive, ref, watch, computed } from "vue";
 import Header from "./components/Header.vue";
 import Drawer from "./components/Drawer.vue";
 
+import { iSneakers } from "./ts/Sneakers.ts";
+
 /* Корзина Корзина Корзина Корзина Корзина Корзина Корзина Корзина Корзина*/
 
 // Создаем массив в котором будет храниться спимок товаров в корзине
-const cart = ref([]);
+const cart = ref<iSneakers[]>([]);
 // Итого
 const totalPrice = computed(() => cart.value.reduce((acc, item) => acc + item.price, 0));
 // Процент
@@ -14,7 +16,7 @@ const vatPrice = computed(() => Math.round((totalPrice.value * 5) / 100));
 // // Кнопка сделать заказ серая(Disabled) если isCreatinOrder==true или корзина пустая
 // const cartButtonDisabled = computed(() => isCreatinOrder.value || cartIsEmpty.value);
 
-const drawerOpen = ref(false);
+const drawerOpen = ref<boolean>(false);
 // функция закрывает окошко корзины
 const closeDrawer = () => {
   drawerOpen.value = false;
@@ -24,19 +26,19 @@ const openDrawer = () => {
   drawerOpen.value = true;
 };
 // Функция которая добавляет товары в корзину
-const addToCart = (item) => {
+const addToCart = (item: iSneakers) => {
   cart.value.push(item);
   item.isAdded = true;
 };
 // Удаляем товар из корзины(с помощью метода splice мы находим индекс этого item и
 // удалить один элемент )
-const removeFromCart = (item) => {
+const removeFromCart = (item: iSneakers) => {
   cart.value.splice(cart.value.indexOf(item), 1);
   item.isAdded = false;
 };
 
 // функция вызывается при клике на кнопку добавить в корзину
-const onClickAddPlus = (item) => {
+const onClickAddPlus = (item: iSneakers) => {
   if (!item.isAdded) {
     addToCart(item);
   } else {
@@ -76,3 +78,4 @@ provide("cart", {
     </div>
   </div>
 </template>
+./ts/SneakersCart

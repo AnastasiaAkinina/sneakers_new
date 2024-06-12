@@ -1,16 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, provide, reactive, ref, watch, computed, inject } from "vue";
 import axios from "axios";
 import debounce from "lodash.debounce";
 
 import CardList from "../components/CardList.vue";
 
+import { iSneakers } from "../ts/Sneakers";
+
 const { cart, addToCart, removeFromCart, onClickAddPlus } = inject("cart");
 
 // Хранятся все кроссовки(массив)
-const items = ref([]);
+const items = ref<iSneakers[]>([]);
 const meta = ref({});
-const currentPage = ref(1);
+const currentPage = ref<boolean>(1);
 
 // Функции следят за изменением селекта и инпута
 const onChangeSelect = (event) => {
@@ -27,7 +29,7 @@ const filters = reactive({
 });
 
 // Когда хотим добавить товар в закладку
-const addToFavorite = async (item) => {
+const addToFavorite = async (item: iSneakers) => {
   try {
     // Проверяем был ли добавлен этот товар
     if (!item.isFavorite) {

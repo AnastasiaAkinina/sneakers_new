@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 // импорт нужен для функции addToFavorite через provide
 import { ref } from "vue";
 import Card from "./Card.vue";
@@ -9,7 +9,7 @@ defineProps({
   meta: Object,
 });
 
-const currentPage = ref(1);
+const currentPage = ref<number>(1);
 const emit = defineEmits(["addToFavorite", "addToCart", "onClickPage"]);
 
 const onClickHandler = (page) => {

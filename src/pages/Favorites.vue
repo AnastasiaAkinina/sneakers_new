@@ -1,9 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import CardList from "../components/CardList.vue";
+import { iSneakers } from "../ts/Sneakers";
 
-const favorites = ref([]);
+const favorites = ref<iSneakers[]>([]);
 
 onMounted(async () => {
   try {

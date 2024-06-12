@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const emit = defineEmits(["onClickRemove"]);
 
 defineProps({
@@ -6,10 +6,6 @@ defineProps({
   title: String,
   price: Number,
   imageUrl: String,
-  // isFavorite: Boolean,
-  // isAdded: Boolean,
-  // onClickFavorite: Function,
-  // onClickAdd: Function,
 });
 </script>
 

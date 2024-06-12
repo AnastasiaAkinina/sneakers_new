@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import DriwerHead from "./DriwerHead.vue";
 import CartItemList from "./CartItemList.vue";
 import InfoBlock from "./InfoBlock.vue";
@@ -14,8 +14,8 @@ const props = defineProps({
 const { cart, closeDrawer } = inject("cart");
 
 //Переменная для 'заказ на оформлении'
-const isCreating = ref(false);
-const orderId = ref(null);
+const isCreating = ref<boolean>(false);
+const orderId = ref<boolean>(null);
 
 // Создаем заказ на бэк
 const createOrder = async () => {
