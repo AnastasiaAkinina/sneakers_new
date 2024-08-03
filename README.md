@@ -7,3 +7,8 @@
 - Разработка закладок и функцилна корзины
 - Исспользование библиотеки AutoAnimate
 - Подключение vue-router
+
+  УСТАНОВКА
+
+-- Установить проект к себе на компьютер git clone https://github.com/AnastasiaAkinina/sneakers_new.git
+-- Запустить проект на сервере npm run dev
