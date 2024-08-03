@@ -1,35 +1,9 @@
-# sneakers
+ОПИСАНИЕ ПРОЕКТА
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- Сверстала макет магазина кросовок, в соответствии с [дизайн-макетом](https://www.figma.com/design/fw0toTyXMwM1y4WIe0YFrJ/React-Sneakers?node-id=60-2)
+- Использование библиотеки Tailwind
+- Разработка поиска и фильтрации товаров
+- Исспользование сервиса MOKKY.DEV для хранения данных
+- Разработка закладок и функцилна корзины
+- Исспользование библиотеки AutoAnimate
+- Подключение vue-router

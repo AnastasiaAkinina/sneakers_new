@@ -78,4 +78,4 @@ provide("cart", {
     </div>
   </div>
 </template>
-./ts/SneakersCart
+
